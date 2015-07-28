@@ -215,31 +215,42 @@ void main()
 # ------------------------------------------------------------ Canvas class ---
 class Canvas(app.Canvas):
 
-    def __init__(self, fname):
+    def __init__(self, fname, tindex):
         app.Canvas.__init__(self, keys='interactive', size=(800, 600))
         ps = self.pixel_scale
 
         # load cmd line data file
         inputdata = np.load(fname)
         # it has shape of (n, 3, 2), with 2 for time steps, take t0=0 for now.
-        inputdata = inputdata[:, :, 0]
+        inputdata = inputdata[:, :, tindex]
         # rescale
         factor = inputdata.max()/2.3  ## 2.3 was max of original data
         inputdata /= factor
-        # shift to center in z-axis
-        inputdata[:, 2] -= inputdata[:, 2].min()
+        # # shift to center in z-axis
+        # inputdata[:, 2] -= inputdata[:, 2].min()
         # Create vertices
-        n = inputdata.shape[0]
+        n = inputdata.shape[0]+6
         data = np.zeros(n, [('a_position', np.float32, 3),
                             ('a_bg_color', np.float32, 4),
                             ('a_fg_color', np.float32, 4),
                             ('a_size', np.float32, 1)])
-        data['a_position'] = inputdata
-        data['a_bg_color'] = np.random.uniform(0.75, 1.0, (n, 4))
+        data['a_position'][:n-6] = inputdata
+        data['a_bg_color'][:n-6] = np.random.uniform(0.75, 1.0, (n-6, 4))
         # data['a_bg_color'] = np.random.uniform(0.85, 1.00, (n, 4))
         data['a_fg_color'] = 0, 0, 0, 1
         # data['a_size'] = np.random.uniform(5*ps, 10*ps, n)
-        data['a_size'] = 5*ps
+        data['a_size'][:n-6] = 5*ps
+
+        r = 252000.0 / factor
+        data['a_position'][n-6] = np.array([0, 0, r])
+        data['a_position'][n-5] = np.array([0, 0, -r])
+        data['a_position'][n-4] = np.array([0, r, 0])
+        data['a_position'][n-3] = np.array([0, -r, 0])
+        data['a_position'][n-2] = np.array([r, 0, 0])
+        data['a_position'][n-1] = np.array([-r, 0, 0])
+        for i in range(1, 7):
+            data['a_size'][n-i] = 15*ps
+            data['a_bg_color'][n-i] = np.array([0.5,0.6,0.7,0.8])
         u_linewidth = 1.0
         u_antialias = 1.0
 
@@ -306,5 +317,5 @@ class Canvas(app.Canvas):
 
 
 if __name__ == '__main__':
-    c = Canvas(sys.argv[1])
+    c = Canvas(sys.argv[1], sys.argv[2])
     app.run()
