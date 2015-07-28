@@ -263,7 +263,7 @@ class Canvas(app.Canvas):
         data['a_position'][-301:-201] = x_axis
         data['a_position'][-201:-101] = y_axis
         data['a_position'][-101:-1] = z_axis
-        data['a_size'][-301:-1] = 1.5*ps
+        data['a_size'][-301:-1] = 3*ps
         data['a_bg_color'][-301:-201] = np.array([1.0, 0.0, 0.0, 1.0])
         data['a_bg_color'][-201:-101] = np.array([0.0, 1.0, 0.0, 1.0])
         data['a_bg_color'][-101:-1] = np.array([0.0, 0.0, 1.0, 1.0])
