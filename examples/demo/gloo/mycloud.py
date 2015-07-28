@@ -215,7 +215,7 @@ void main()
 # ------------------------------------------------------------ Canvas class ---
 class Canvas(app.Canvas):
 
-    def __init__(self, fname, tindex):
+    def __init__(self, fname, tindex, psize_scale=1):
         app.Canvas.__init__(self, keys='interactive', size=(800, 600))
         ps = self.pixel_scale
 
@@ -245,7 +245,7 @@ class Canvas(app.Canvas):
         # data['a_bg_color'] = np.random.uniform(0.85, 1.00, (n, 4))
         data['a_fg_color'] = 0, 0, 0, 1
         # data['a_size'] = np.random.uniform(5*ps, 10*ps, n)
-        data['a_size'][:-301] = 5*ps
+        data['a_size'][:-301] = psize_scale*ps
 
         # Enceladus
         data['a_position'][-1] = np.array([0, 0, 0])
@@ -332,5 +332,8 @@ class Canvas(app.Canvas):
 
 
 if __name__ == '__main__':
-    c = Canvas(sys.argv[1], sys.argv[2])
+    try:
+        c = Canvas(sys.argv[1], sys.argv[2], sys.argv[3])
+    except IndexError:
+        c = Canvas(sys.argv[1], sys.argv[2])
     app.run()
