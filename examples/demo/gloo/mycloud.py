@@ -250,7 +250,7 @@ class Canvas(app.Canvas):
         # Enceladus
         data['a_position'][-1] = np.array([0, 0, 0])
         data['a_size'][-1] = 252*ps
-        data['a_bg_color'][-301:] = np.array([0.5,0.6,0.7,0.8])
+        data['a_bg_color'][-1] = np.array([0.5,0.6,0.7,0.8])
 
         # Axes
         axis = np.linspace(-1, 1, 100)
@@ -263,8 +263,10 @@ class Canvas(app.Canvas):
         data['a_position'][-301:-201] = x_axis
         data['a_position'][-201:-101] = y_axis
         data['a_position'][-101:-1] = z_axis
-        data['a_size'][-301:-1] = 1*ps
-
+        data['a_size'][-301:-1] = 1.5*ps
+        data['a_bg_color'][-301:-201] = np.array([1.0, 0.0, 0.0, 1.0])
+        data['a_bg_color'][-201:-101] = np.array([0.0, 1.0, 0.0, 1.0])
+        data['a_bg_color'][-101:-1] = np.array([0.0, 0.0, 1.0, 1.0])
         # original code
         u_linewidth = 1.0
         u_antialias = 1.0
