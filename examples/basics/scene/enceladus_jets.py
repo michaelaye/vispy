@@ -36,7 +36,7 @@ view.camera = 'arcball'
 view.camera.fov = 60
 
 # create Enceladus
-enc = visuals.Sphere(radius=1, parent=view.scene)
+enc = visuals.Sphere(radius=1, color=(0, 0, 1), parent=view.scene)
 
 # add a colored 3D axis for orientation
 axis = visuals.XYZAxis(parent=view.scene, width=10, scale=-1.1)
